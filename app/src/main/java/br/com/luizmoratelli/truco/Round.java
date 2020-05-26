@@ -1,11 +1,12 @@
 package br.com.luizmoratelli.truco;
 
 import android.os.Build;
+import android.widget.Toast;
 
 import androidx.annotation.RequiresApi;
 
 public class Round {
-    public Boolean draw;
+    public Boolean draw = false;
     public Player winner;
     public Card playerCard;
     public Card enemyCard;
@@ -21,21 +22,29 @@ public class Round {
     }
 
     @RequiresApi(api = Build.VERSION_CODES.N)
-    public void check() {
-        if (playerCard == null && enemyCard != null) game.setPlayerTurn();
+    public String check(Player playerTurn) {
+        if (playerTurn instanceof RealPlayer) game.setPlayerTurn();
+        else if (playerTurn instanceof IAPlayer) game.setEnemyTurn();
+        else if (playerCard == null && enemyCard != null) game.setPlayerTurn();
         else if (enemyCard == null && playerCard != null) game.setEnemyTurn();
-
-        if (playerCard != null && enemyCard != null) {
+        else if (playerCard != null && enemyCard != null) {
+            String texto = null;
             if (playerCard.getValue(powerfulCard) > enemyCard.getValue(powerfulCard)) {
                 winner = Game.player;
+                texto = "Feita por você";
             } else if (enemyCard.getValue(powerfulCard) > playerCard.getValue(powerfulCard)) {
                 winner = Game.enemy;
+                texto = "Feita pelo oponente";
             } else {
                 draw = true;
+                texto = "Empate";
             }
+
+            game.createNewRound();
+            return texto;
         }
 
-        //game.createNewRound();
+        return null;
     }
 
     public Round(Digit powerfulCard, Game game) {

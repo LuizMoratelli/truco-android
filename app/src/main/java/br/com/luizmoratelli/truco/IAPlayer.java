@@ -18,7 +18,9 @@ public class IAPlayer implements Player {
     @Override
     public void updateHand() {
         for (int i = 0; i < 3; i++) {
-            if (cards.size() < i + 1) {
+            if (cards.size() > i) {
+                MainActivity.enemyCards.get(i).setVisibility(View.VISIBLE);
+            } else {
                 MainActivity.enemyCards.get(i).setVisibility(View.INVISIBLE);
             }
         }
@@ -26,8 +28,8 @@ public class IAPlayer implements Player {
 
     @Override
     public Card playCard(int position) {
+        //if (position >= cards.size()) return null;
         Card playedCard = cards.remove(position);
-        game.table.addCard(playedCard);
         return playedCard;
         // Decidir como serão feitas as escolhas
         // Ordenar em uma lista de mais forte para mais fraca, considerar coringas

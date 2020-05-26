@@ -29,7 +29,7 @@ public class RealPlayer implements Player {
                 if (playedCard != null) {
                     Game.table.addCard(playedCard);
                     updateHand();
-                    game.checkRound(true, playedCard);
+                    game.checkRound(true, playedCard, null);
                 }
             }
         });
@@ -43,7 +43,7 @@ public class RealPlayer implements Player {
                 if (playedCard != null) {
                     Game.table.addCard(playedCard);
                     updateHand();
-                    game.checkRound(true, playedCard);
+                    game.checkRound(true, playedCard, null);
                 }
             }
         });
@@ -57,7 +57,7 @@ public class RealPlayer implements Player {
                 if (playedCard != null) {
                     Game.table.addCard(playedCard);
                     updateHand();
-                    game.checkRound(true, playedCard);
+                    game.checkRound(true, playedCard,null);
                 }
             }
         });
@@ -67,6 +67,7 @@ public class RealPlayer implements Player {
     public void updateHand() {
         for (int i = 0; i < 3; i++) {
             if (cards.size() > i) {
+                MainActivity.playerCards.get(i).setVisibility(View.VISIBLE);
                 MainActivity.playerCards.get(i).setImageResource(cards.get(i).image); ;
             } else {
                 MainActivity.playerCards.get(i).setVisibility(View.INVISIBLE);
@@ -77,9 +78,7 @@ public class RealPlayer implements Player {
     @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
     public Card playCard(int position) {
-        if (!Game.playerRound) return null;
-
-        if (cards.size() > position) {
+        if (Game.playerRound instanceof RealPlayer && cards.size() > position) {
             return cards.remove(position);
         }
 
