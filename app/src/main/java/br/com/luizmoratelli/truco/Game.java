@@ -160,29 +160,22 @@ public class Game {
 
     @RequiresApi(api = Build.VERSION_CODES.N)
     public void checkRound(Boolean playerCard, Card card, Player playerRound) {
-        //Timer t = new Timer();
-        //t.schedule(new TimerTask() {
-        //    @Override
-        //    public void run() {
-                if (card != null) {
-                    if (playerCard) {
-                        rounds.get(rounds.size() - 1).setPlayerCard(card);
-                    } else {
-                        rounds.get(rounds.size() - 1).setEnemyCard(card);
-                    }
-                }
-//2
-                String texto = rounds.get(rounds.size() - 1).check(playerRound);
+        if (card != null) {
+            if (playerCard) {
+                rounds.get(rounds.size() - 1).setPlayerCard(card);
+            } else {
+                rounds.get(rounds.size() - 1).setEnemyCard(card);
+            }
+        }
 
-                if (texto != null) {
-                    Toast.makeText(
-                            context,
-                            texto,
-                            Toast.LENGTH_SHORT
-                    ).show();
-                }
-        //    }
-        //}, 1000);
+        String texto = rounds.get(rounds.size() - 1).check(playerRound);
 
+        if (texto != null) {
+            Toast.makeText(
+                    context,
+                    texto,
+                    Toast.LENGTH_SHORT
+            ).show();
+        }
     }
 }
