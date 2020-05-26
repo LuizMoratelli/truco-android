@@ -2,14 +2,13 @@ package br.com.luizmoratelli.truco;
 
 import android.content.Context;
 import android.os.Build;
+import android.view.View;
 import android.widget.Toast;
 
 import androidx.annotation.RequiresApi;
 
 import java.util.ArrayList;
 
-// Provável que precis de Game -> Rodada -> Turno (Ou fazer no turno um for de 3 jogadas)
-// Acho que vai ter que seprar pra conseguir salvar os clicks e gerar as ações pelos rounds
 public class Game {
     private final Context context;
     private Deck deck = null;
@@ -34,6 +33,13 @@ public class Game {
     public void setPlayerTurn() {
         playerRound = player;
         // Habilitar botões e clicks nas cards
+        MainActivity.playerActions.get(0).setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
     }
 
     @RequiresApi(api = Build.VERSION_CODES.N)
@@ -71,6 +77,8 @@ public class Game {
             if (playerRoundsWon == 2 || (playerRoundsWon == 1 && drawRounds == 1)) {
                 createNewRound = false;
                 playerWinner = true;
+            } else if (playerRoundsWon == 0) {
+                createNewRound = false;
             }
         } else if (rounds.size() == 3) {
             createNewRound = false;

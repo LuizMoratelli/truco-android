@@ -20,6 +20,8 @@ public class IAPlayer implements Player {
         for (int i = 0; i < 3; i++) {
             if (cards.size() > i) {
                 MainActivity.enemyCards.get(i).setVisibility(View.VISIBLE);
+                // Enable to see enemy cards
+                // MainActivity.enemyCards.get(i).setImageResource(cards.get(i).image);
             } else {
                 MainActivity.enemyCards.get(i).setVisibility(View.INVISIBLE);
             }
