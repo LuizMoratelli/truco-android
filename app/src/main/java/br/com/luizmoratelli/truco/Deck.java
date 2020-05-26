@@ -57,7 +57,7 @@ public class Deck {
     public ArrayList<Card> draw (int quantity) {
         ArrayList<Card> drawnCards = new ArrayList<Card>();
 
-        for (int i = 0; i <= quantity; i++) {
+        for (int i = 0; i < quantity; i++) {
             int size = cards.size();
             int randomPosition = new Random().nextInt(size);
             Card drawnCard = (Card) cards.remove(randomPosition);
