@@ -13,7 +13,7 @@ The images used for the cards are available at: http://acbl.mybigcommerce.com/52
 
 <hr>
 
-## Portguês Brasileiro
+## :brazil:
 Truco
 
 ### Regras do Truco
