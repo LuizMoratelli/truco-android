@@ -22,8 +22,8 @@ public class Round {
 
     @RequiresApi(api = Build.VERSION_CODES.N)
     public void check() {
-        if (playerCard == null && enemyCard != null) Game.setPlayerTurn();
-        else if (enemyCard == null && playerCard != null) Game.setEnemyTurn();
+        if (playerCard == null && enemyCard != null) game.setPlayerTurn();
+        else if (enemyCard == null && playerCard != null) game.setEnemyTurn();
 
         if (playerCard != null && enemyCard != null) {
             if (playerCard.getValue(powerfulCard) > enemyCard.getValue(powerfulCard)) {
@@ -35,7 +35,7 @@ public class Round {
             }
         }
 
-        game.createNewRound();
+        //game.createNewRound();
     }
 
     public Round(Digit powerfulCard, Game game) {

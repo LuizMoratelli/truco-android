@@ -6,6 +6,8 @@ import android.os.Build;
 import androidx.annotation.RequiresApi;
 
 import java.util.ArrayList;
+import java.util.Timer;
+import java.util.TimerTask;
 
 // Provável que precis de Game -> Rodada -> Turno (Ou fazer no turno um for de 3 jogadas)
 // Acho que vai ter que seprar pra conseguir salvar os clicks e gerar as ações pelos rounds
@@ -30,15 +32,20 @@ public class Game {
         this.context = context;
     }
 
-    public static void setPlayerTurn() {
+    public void setPlayerTurn() {
         playerTurn = true;
         playerRound = true;
         // Habilitar botões e clicks nas cards
     }
 
-    public static void setEnemyTurn() {
+    @RequiresApi(api = Build.VERSION_CODES.N)
+    public void setEnemyTurn() {
         playerTurn = false;
         playerRound = false;
+        Card playedCard = enemy.playCard(0);
+        enemy.updateHand();
+        table.addCard(playedCard);
+        checkRound(false, playedCard);
         // Desabilitar botões e clicks do player, esperar uns 2~5 segundos e fazer uma jogada.
     }
 
@@ -100,6 +107,7 @@ public class Game {
         }
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.N)
     public void nextTurn() {
         int playerWins = 0;
         Boolean isBluffed = false;
@@ -147,12 +155,19 @@ public class Game {
 
     @RequiresApi(api = Build.VERSION_CODES.N)
     public void checkRound(Boolean playerCard, Card card) {
-        if (playerCard) {
-            rounds.get(rounds.size() - 1).setPlayerCard(card);
-        } else {
-           rounds.get(rounds.size() - 1).setEnemyCard(card);
-        }
+        Timer t = new Timer();
+        t.schedule(new TimerTask() {
+            @Override
+            public void run() {
+                if (playerCard) {
+                    rounds.get(rounds.size() - 1).setPlayerCard(card);
+                } else {
+                    rounds.get(rounds.size() - 1).setEnemyCard(card);
+                }
 
-        rounds.get(rounds.size() - 1).check();
+                rounds.get(rounds.size() - 1).check();
+            }
+        }, 5000);
+
     }
 }

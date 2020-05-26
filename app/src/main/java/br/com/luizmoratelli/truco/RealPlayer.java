@@ -10,6 +10,7 @@ import androidx.annotation.RequiresApi;
 import java.lang.reflect.Array;
 import java.util.AbstractCollection;
 import java.util.ArrayList;
+import java.util.concurrent.TimeUnit;
 
 public class RealPlayer implements Player {
     private ArrayList<Card> cards = null;
@@ -65,7 +66,7 @@ public class RealPlayer implements Player {
     @Override
     public void updateHand() {
         for (int i = 0; i < 3; i++) {
-            if (cards.size() > i + 1) {
+            if (cards.size() > i) {
                 MainActivity.playerCards.get(i).setImageResource(cards.get(i).image); ;
             } else {
                 MainActivity.playerCards.get(i).setVisibility(View.INVISIBLE);
