@@ -3,58 +3,41 @@ package br.com.luizmoratelli.truco;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
-import android.os.Debug;
+import android.view.View;
+import android.widget.ImageView;
+import android.widget.TextView;
 
-import java.util.PriorityQueue;
-import java.util.Stack;
+import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
-    Stack cards = new Stack<String>(){{
-        add("ca");
-        add("da");
-        add("ha");
-        add("sa");
-        add("c2");
-        add("d2");
-        add("h2");
-        add("s2");
-        add("c3");
-        add("d3");
-        add("h3");
-        add("s3");
-        add("c4");
-        add("d4");
-        add("h4");
-        add("s4");
-        add("c5");
-        add("d5");
-        add("h5");
-        add("s5");
-        add("c6");
-        add("d6");
-        add("h6");
-        add("s6");
-        add("c7");
-        add("d7");
-        add("h7");
-        add("s7");
-        add("cq");
-        add("dq");
-        add("hq");
-        add("sq");
-        add("cj");
-        add("dj");
-        add("hj");
-        add("sj");
-        add("ck");
-        add("dk");
-        add("hk");
-        add("sk");
-    }};
+    public static ArrayList<ImageView> playerCards = new ArrayList<ImageView>();
+    public static ArrayList<ImageView> enemyCards = new ArrayList<ImageView>();
+    public static ImageView turnedCard = null;
+    public static ImageView tableCard = null;
+    public static TextView enemyScore = null;
+    public static TextView playerScore = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        // Set Views (Change to BroadCast Receiver!?)
+        playerCards.add((ImageView) findViewById(R.id.player1Card));
+        playerCards.add((ImageView) findViewById(R.id.player2Card));
+        playerCards.add((ImageView) findViewById(R.id.player3Card));
+        enemyCards.add((ImageView) findViewById(R.id.enemy1Card));
+        enemyCards.add((ImageView) findViewById(R.id.enemy2Card));
+        enemyCards.add((ImageView) findViewById(R.id.enemy3Card));
+        turnedCard = findViewById(R.id.turnedCard);
+        tableCard = findViewById(R.id.tableCard);
+        enemyScore = findViewById(R.id.enemyScore);
+        playerScore = findViewById(R.id.playerScore);
+        //
+
+        Game game = new Game(this);
+        //while (game.getWinner() == null) {
+            game.nextTurn();
+        //}
     }
 }
