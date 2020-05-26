@@ -7,8 +7,6 @@ import android.widget.Toast;
 import androidx.annotation.RequiresApi;
 
 import java.util.ArrayList;
-import java.util.Timer;
-import java.util.TimerTask;
 
 // Provável que precis de Game -> Rodada -> Turno (Ou fazer no turno um for de 3 jogadas)
 // Acho que vai ter que seprar pra conseguir salvar os clicks e gerar as ações pelos rounds
@@ -63,51 +61,55 @@ public class Game {
 
     @RequiresApi(api = Build.VERSION_CODES.N)
     public void createNewRound() {
-        Boolean createNewRound = true;
-        Boolean playerWinner = false;
+        boolean createNewRound = true;
+        boolean playerWinner = false;
+        int drawRounds = (int) rounds.stream().filter(round -> round.draw).count();
+        int playerRoundsWon = (int) rounds.stream().filter(round -> round.winner == player).count();
+        table.clean();
 
-        if (rounds.size() == 2) {
-            if (rounds.get(0).winner == player && rounds.get(1).winner == player) {
-                // Acabou Player ganhou
+        if (rounds.size() == 2 && drawRounds < 2) {
+            if (playerRoundsWon == 2 || (playerRoundsWon == 1 && drawRounds == 1)) {
                 createNewRound = false;
                 playerWinner = true;
-            } else if (rounds.get(0).winner == enemy && rounds.get(1).winner == enemy) {
-                // Acabou Enemy ganhou
-                createNewRound = false;
-            } else if (rounds.get(0).draw && !rounds.get(1).draw) {
-                // Ganhou o rounds.get(1).winner;
-                createNewRound = false;
-                playerWinner = rounds.get(1).winner instanceof RealPlayer;
             }
         } else if (rounds.size() == 3) {
-            int playerRoundsWinned = (int) rounds.stream().filter(round -> round.winner == player).count();
-            int drawRounds = (int) rounds.stream().filter(round -> round.draw).count();
+            createNewRound = false;
 
-            if (drawRounds == 3) {
-                // Empatou todos, ngm ganha ponto
-                createNewRound = false;
-            } else if (playerRoundsWinned >= 2) {
-                // Player ganhou
-                createNewRound = false;
+            if (playerRoundsWon >= 2 || (drawRounds == 2 && playerRoundsWon == 1)) {
                 playerWinner = true;
-            } else {
-                // Enemy ganhou
-                createNewRound = false;
             }
         }
 
         if (createNewRound) {
             playerRound = rounds.get(rounds.size() - 1).winner;
+
             if (playerRound == null) {
                 playerRound = playerTurn ? player : enemy;
             }
+
             rounds.add(new Round(powerfulCard, this));
 
             checkRound(false, null, playerRound);
         } else {
             int scoreToAdd = isBluffed ? 3 : 1;
-            if (playerWinner) playerScore += scoreToAdd;
-            else enemyScore += scoreToAdd;
+
+            if (drawRounds < 3) {
+                if (playerWinner) playerScore += scoreToAdd;
+                else enemyScore += scoreToAdd;
+
+                Toast.makeText(
+                        context,
+                        playerWinner ? "Você ganhou a rodada (" + scoreToAdd + ")" : "Você perdeu a rodada (" + scoreToAdd + ")",
+                        Toast.LENGTH_LONG
+                ).show();
+            } else {
+                Toast.makeText(
+                        context,
+                        "Rodada empatada",
+                        Toast.LENGTH_LONG
+                ).show();
+            }
+
 
             updateScore();
             nextTurn();
@@ -142,7 +144,7 @@ public class Game {
             winner = player;
             Toast.makeText(
                     context,
-                    "Você ganhou a partida!",
+                    R.string.text_win,
                     Toast.LENGTH_LONG
             ).show();
 
@@ -150,7 +152,7 @@ public class Game {
             winner = enemy;
             Toast.makeText(
                     context,
-                    "Você perdeu a partida!",
+                    R.string.text_lose,
                     Toast.LENGTH_LONG
             ).show();
         }

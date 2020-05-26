@@ -3,4 +3,6 @@
     <string name="button_bluff">Truco</string>
     <string name="button_run">Correr</string>
     <string name="button_accept">Aceitar</string>
+    <string name="text_win">Você ganhou a partida!</string>
+    <string name="text_lose">Você perdeu a partida!</string>
 </resources>
