@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -16,6 +17,7 @@ public class MainActivity extends AppCompatActivity {
     public static ImageView tableCard = null;
     public static TextView enemyScore = null;
     public static TextView playerScore = null;
+    public static ArrayList<Button> playerActions = new ArrayList<Button>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,11 +35,12 @@ public class MainActivity extends AppCompatActivity {
         tableCard = findViewById(R.id.tableCard);
         enemyScore = findViewById(R.id.enemyScore);
         playerScore = findViewById(R.id.playerScore);
+        playerActions.add((Button) findViewById(R.id.buttonBluff));
+        playerActions.add((Button) findViewById(R.id.buttonRun));
+        playerActions.add((Button) findViewById(R.id.buttonAccept));
         //
 
         Game game = new Game(this);
-        //while (game.getWinner() == null) {
-            game.nextTurn();
-        //}
+        game.nextTurn();
     }
 }

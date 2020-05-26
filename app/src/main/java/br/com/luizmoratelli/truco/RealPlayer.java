@@ -5,6 +5,7 @@ import android.view.View;
 import android.widget.ImageView;
 
 import java.lang.reflect.Array;
+import java.util.AbstractCollection;
 import java.util.ArrayList;
 
 public class RealPlayer implements Player {
@@ -12,6 +13,30 @@ public class RealPlayer implements Player {
 
     public RealPlayer(ArrayList<Card> cards) {
         this.cards = cards;
+
+        MainActivity.playerCards.get(0).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Game.table.addCard(playCard(0));
+                updateHand();
+            }
+        });
+
+        MainActivity.playerCards.get(1).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Game.table.addCard(playCard(1));
+                updateHand();
+            }
+        });
+
+        MainActivity.playerCards.get(2).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Game.table.addCard(playCard(2));
+                updateHand();
+            }
+        });
     }
 
     @Override
@@ -23,5 +48,14 @@ public class RealPlayer implements Player {
                 MainActivity.playerCards.get(i).setVisibility(View.INVISIBLE);
             }
         }
+    }
+
+    @Override
+    public Card playCard(int position) {
+        if (cards.size() > position) {
+            return cards.remove(position);
+        }
+
+        return null;
     }
 }

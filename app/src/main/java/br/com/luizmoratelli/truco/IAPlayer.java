@@ -21,4 +21,21 @@ public class IAPlayer implements Player {
             }
         }
     }
+
+    @Override
+    public Card playCard(int position) {
+        // Decidir como serão feitas as escolhas
+        // Ordenar em uma lista de mais forte para mais fraca, considerar coringas
+        /*
+         * Se já tem card na mesa, jogar a mais fraca que possa ganhar.
+         * Se não tem:
+         *   Se ganhou a primeira: jogar mais fraca;
+         *   Se perdeu a primeira: jogar mais forte;
+         * */
+        return null;
+    }
+
+    public void sortCards() {
+        // da mais forte -> mais fraca, considerar coringas
+    }
 }
