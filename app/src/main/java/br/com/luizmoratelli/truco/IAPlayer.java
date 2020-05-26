@@ -7,10 +7,11 @@ import java.util.ArrayList;
 
 public class IAPlayer implements Player {
     private ArrayList<Card> cards = null;
-    private Context context;
+    private Game game;
 
-    public IAPlayer(ArrayList<Card> cards) {
+    public IAPlayer(ArrayList<Card> cards, Game game) {
         this.cards = cards;
+        this.game = game;
     }
 
     @Override

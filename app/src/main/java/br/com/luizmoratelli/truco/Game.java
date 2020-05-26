@@ -1,63 +1,125 @@
 package br.com.luizmoratelli.truco;
 
 import android.content.Context;
+import android.os.Build;
+
+import androidx.annotation.RequiresApi;
+
+import java.util.ArrayList;
 
 // Provável que precis de Game -> Rodada -> Turno (Ou fazer no turno um for de 3 jogadas)
 // Acho que vai ter que seprar pra conseguir salvar os clicks e gerar as ações pelos rounds
 public class Game {
     private final Context context;
     private Deck deck = null;
-    private Player winner = null;
+    private static Player winner = null;
     public static Player player;
     public static Player enemy;
     public static Table table;
-    private final int initialCards = 3;
-    private Card turnedCard;
-    private Digit powerfulCard;
-    private Boolean playerFirst = true;
-    private Boolean isBluffed;
-    private int playerScore = 0;
-    private int enemyScore = 0;
+    private static final int initialCards = 3;
+    private static Card turnedCard;
+    private static Digit powerfulCard;
+    public static Boolean playerTurn = false;
+    public static Boolean playerRound = false;
+    private static Boolean isBluffed;
+    private static int playerScore = 0;
+    private static int enemyScore = 0;
+    private static ArrayList<Round> rounds = new ArrayList<Round>();
 
     public Game(Context context) {
         this.context = context;
     }
 
+    public static void setPlayerTurn() {
+        playerTurn = true;
+        playerRound = true;
+        // Habilitar botões e clicks nas cards
+    }
+
+    public static void setEnemyTurn() {
+        playerTurn = false;
+        playerRound = false;
+        // Desabilitar botões e clicks do player, esperar uns 2~5 segundos e fazer uma jogada.
+    }
+
     private void setupTurn() {
         deck = new Deck(context);
 
-        player = new RealPlayer(deck.draw(initialCards));
-        enemy = new IAPlayer(deck.draw(initialCards));
+        player = new RealPlayer(deck.draw(initialCards), this);
+        enemy = new IAPlayer(deck.draw(initialCards), this);
         table = new Table();
-        playerFirst = !playerFirst;
+        playerTurn = !playerTurn;
         setTurnedCard();
         player.updateHand();
         enemy.updateHand();
         table.clean();
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.N)
+    public void createNewRound() {
+        Boolean createNewRound = true;
+        Boolean playerWinner = false;
+
+        if (rounds.size() == 2) {
+            if (rounds.get(0).winner == player && rounds.get(1).winner == player) {
+                // Acabou Player ganhou
+                createNewRound = false;
+                playerWinner = true;
+            } else if (rounds.get(0).winner == enemy && rounds.get(1).winner == enemy) {
+                // Acabou Enemy ganhou
+                createNewRound = false;
+            } else if (rounds.get(0).draw == true && rounds.get(1).draw == false) {
+                // Ganhou o rounds.get(1).winner;
+                createNewRound = false;
+                playerWinner = rounds.get(1).winner instanceof RealPlayer;
+            }
+        } else if (rounds.size() == 3) {
+            int playerRoundsWinned = (int) rounds.stream().filter(round -> round.winner == player).count();
+            int drawRounds = (int) rounds.stream().filter(round -> round.draw).count();
+
+            if (drawRounds == 3) {
+                // Empatou todos, ngm ganha ponto
+            } else if (playerRoundsWinned >= 2) {
+                // Player ganhou
+                playerWinner = true;
+            } else {
+                // Enemy ganhou
+            }
+        }
+        // Se alguem ganha tem que dar os pontos, e cada round e quando acabar tem que definir os próximos que começarão
+
+        if (createNewRound) {
+            playerRound = rounds.get(rounds.size() - 1).winner instanceof RealPlayer;
+            rounds.add(new Round(powerfulCard, this));
+        } else {
+            int scoreToAdd = isBluffed ? 3 : 1;
+            if (playerWinner) playerScore += scoreToAdd;
+            else enemyScore += scoreToAdd;
+
+            updateScore();
+        }
+    }
+
     public void nextTurn() {
-        setupTurn();
         int playerWins = 0;
         Boolean isBluffed = false;
+        setupTurn();
+        rounds.add(new Round(powerfulCard, this));
 
-        //for (int round = 0; round < 3; round++) {
-            // if (playerWins > 2 || (playerWins == 0 && i == 2)) break;
-            player.updateHand();
-            enemy.updateHand();
+        if (playerTurn) {
+           setPlayerTurn();
+        } else {
+            setEnemyTurn();
+        }
 
-            // Se um jogador ganhar as duas primeiras rodadas acaba o round
+        playerTurn = !playerTurn;
+
         // Player Joga (Truca, Corre, Aceita ou joga Card)
             // IA Joga (Mesmo)
             // Compara quem venceu e atribui os pontos
             // Resetar truco a cada "Rodada"
         //}
 
-        int scoreToAdd = isBluffed ? 3 : 1;
-        if (playerWins >= 2) playerScore += scoreToAdd;
-        else enemyScore += scoreToAdd;
-
-        updateScore();
     }
 
     // Comparar a última carta de jogar e determinar qual ganhou, atribuir o direito de começar ao ganhador do round anterior
@@ -81,5 +143,16 @@ public class Game {
         } else {
             //nextTurn();
         }
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.N)
+    public void checkRound(Boolean playerCard, Card card) {
+        if (playerCard) {
+            rounds.get(rounds.size() - 1).setPlayerCard(card);
+        } else {
+           rounds.get(rounds.size() - 1).setEnemyCard(card);
+        }
+
+        rounds.get(rounds.size() - 1).check();
     }
 }
