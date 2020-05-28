@@ -28,6 +28,7 @@ public class Game {
 
     public Game(Context context) {
         this.context = context;
+        table = new Table();
     }
 
     public void setPlayerTurn() {
@@ -56,7 +57,6 @@ public class Game {
         deck = new Deck(context);
         player = new RealPlayer(deck.draw(initialCards), this);
         enemy = new IAPlayer(deck.draw(initialCards), this);
-        table = new Table();
         rounds = new ArrayList<Round>();
         playerTurn = !playerTurn;
         setTurnedCard();
@@ -118,7 +118,6 @@ public class Game {
                 ).show();
             }
 
-
             updateScore();
             nextTurn();
         }
@@ -126,7 +125,6 @@ public class Game {
 
     @RequiresApi(api = Build.VERSION_CODES.N)
     public void nextTurn() {
-        Boolean isBluffed = false;
         setupTurn();
         rounds.add(new Round(powerfulCard, this));
 
