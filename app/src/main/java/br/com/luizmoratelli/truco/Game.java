@@ -82,7 +82,6 @@ public class Game {
         boolean playerWinner = false;
         int drawRounds = (int) rounds.stream().filter(round -> round.draw).count();
         int playerRoundsWon = (int) rounds.stream().filter(round -> round.winner == player).count();
-        //table.clean();
         playerCanPlay = false;
 
         if (rounds.size() == 2 && drawRounds < 2) {
@@ -112,10 +111,9 @@ public class Game {
                 @RequiresApi(api = Build.VERSION_CODES.N)
                 @Override
                 public void onClick(View v) {
+                    table.clean();
                     rounds.add(new Round(powerfulCard, instance));
-
                     checkRound(false, null, playerRound);
-
                     playerCanPlay = true;
                 }
             });
@@ -145,6 +143,7 @@ public class Game {
                 @RequiresApi(api = Build.VERSION_CODES.N)
                 @Override
                 public void onClick(View v) {
+                    table.clean();
                     nextTurn();
                     playerCanPlay = true;
                 }
