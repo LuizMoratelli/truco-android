@@ -24,12 +24,14 @@ public class RealPlayer implements Player {
             @RequiresApi(api = Build.VERSION_CODES.N)
             @Override
             public void onClick(View v) {
-                Card playedCard = playCard(0);
+                if (Game.playerCanPlay) {
+                    Card playedCard = playCard(0);
 
-                if (playedCard != null) {
-                    Game.table.addCard(playedCard);
-                    updateHand();
-                    game.checkRound(true, playedCard, null);
+                    if (playedCard != null) {
+                        Game.table.addCard(playedCard);
+                        updateHand();
+                        game.checkRound(true, playedCard, null);
+                    }
                 }
             }
         });
@@ -38,12 +40,14 @@ public class RealPlayer implements Player {
             @RequiresApi(api = Build.VERSION_CODES.N)
             @Override
             public void onClick(View v) {
-                Card playedCard = playCard(1);
+                if (Game.playerCanPlay) {
+                    Card playedCard = playCard(1);
 
-                if (playedCard != null) {
-                    Game.table.addCard(playedCard);
-                    updateHand();
-                    game.checkRound(true, playedCard, null);
+                    if (playedCard != null) {
+                        Game.table.addCard(playedCard);
+                        updateHand();
+                        game.checkRound(true, playedCard, null);
+                    }
                 }
             }
         });
@@ -52,12 +56,14 @@ public class RealPlayer implements Player {
             @RequiresApi(api = Build.VERSION_CODES.N)
             @Override
             public void onClick(View v) {
-                Card playedCard = playCard(2);
+                if (Game.playerCanPlay) {
+                    Card playedCard = playCard(2);
 
-                if (playedCard != null) {
-                    Game.table.addCard(playedCard);
-                    updateHand();
-                    game.checkRound(true, playedCard,null);
+                    if (playedCard != null) {
+                        Game.table.addCard(playedCard);
+                        updateHand();
+                        game.checkRound(true, playedCard, null);
+                    }
                 }
             }
         });

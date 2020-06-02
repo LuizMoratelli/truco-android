@@ -25,20 +25,24 @@ public class Game {
     private static int playerScore = 0;
     private static int enemyScore = 0;
     private static ArrayList<Round> rounds = new ArrayList<Round>();
+    public static Game instance;
+    public static boolean playerCanPlay = false;
 
     public Game(Context context) {
         this.context = context;
         table = new Table();
+        instance = this;
     }
 
     public void setPlayerTurn() {
         playerRound = player;
+        playerCanPlay = true;
         // Habilitar botões e clicks nas cards
         MainActivity.playerActions.get(0).setOnClickListener(new View.OnClickListener() {
 
+            @RequiresApi(api = Build.VERSION_CODES.N)
             @Override
             public void onClick(View v) {
-
             }
         });
     }
@@ -54,6 +58,13 @@ public class Game {
     }
 
     private void setupTurn() {
+        MainActivity.playerActions.get(3).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
+
         deck = new Deck(context);
         player = new RealPlayer(deck.draw(initialCards), this);
         enemy = new IAPlayer(deck.draw(initialCards), this);
@@ -71,7 +82,8 @@ public class Game {
         boolean playerWinner = false;
         int drawRounds = (int) rounds.stream().filter(round -> round.draw).count();
         int playerRoundsWon = (int) rounds.stream().filter(round -> round.winner == player).count();
-        table.clean();
+        //table.clean();
+        playerCanPlay = false;
 
         if (rounds.size() == 2 && drawRounds < 2) {
             if (playerRoundsWon == 2 || (playerRoundsWon == 1 && drawRounds == 1)) {
@@ -95,9 +107,18 @@ public class Game {
                 playerRound = playerTurn ? player : enemy;
             }
 
-            rounds.add(new Round(powerfulCard, this));
+            MainActivity.playerActions.get(3).setOnClickListener(new View.OnClickListener() {
 
-            checkRound(false, null, playerRound);
+                @RequiresApi(api = Build.VERSION_CODES.N)
+                @Override
+                public void onClick(View v) {
+                    rounds.add(new Round(powerfulCard, instance));
+
+                    checkRound(false, null, playerRound);
+
+                    playerCanPlay = true;
+                }
+            });
         } else {
             int scoreToAdd = isBluffed ? 3 : 1;
 
@@ -119,7 +140,15 @@ public class Game {
             }
 
             updateScore();
-            nextTurn();
+            MainActivity.playerActions.get(3).setOnClickListener(new View.OnClickListener() {
+
+                @RequiresApi(api = Build.VERSION_CODES.N)
+                @Override
+                public void onClick(View v) {
+                    nextTurn();
+                    playerCanPlay = true;
+                }
+            });
         }
     }
 

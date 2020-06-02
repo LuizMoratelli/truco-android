@@ -5,4 +5,5 @@
     <string name="button_accept">Aceitar</string>
     <string name="text_win">Você ganhou a partida!</string>
     <string name="text_lose">Você perdeu a partida!</string>
+    <string name="button_ok">OK</string>
 </resources>

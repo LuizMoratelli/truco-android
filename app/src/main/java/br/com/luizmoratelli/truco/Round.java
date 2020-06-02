@@ -5,6 +5,9 @@ import android.widget.Toast;
 
 import androidx.annotation.RequiresApi;
 
+import java.util.Timer;
+import java.util.TimerTask;
+
 public class Round {
     public Boolean draw = false;
     public Player winner;
@@ -40,7 +43,9 @@ public class Round {
                 texto = "Empate";
             }
 
+            // Esperar 1s antes disso
             game.createNewRound();
+
             return texto;
         }
 

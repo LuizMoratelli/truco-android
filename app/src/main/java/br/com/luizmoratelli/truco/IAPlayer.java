@@ -30,7 +30,7 @@ public class IAPlayer implements Player {
 
     @Override
     public Card playCard(int position) {
-        //if (position >= cards.size()) return null;
+        if (position >= cards.size()) return null;
         Card playedCard = cards.remove(position);
         return playedCard;
         // Decidir como serão feitas as escolhas

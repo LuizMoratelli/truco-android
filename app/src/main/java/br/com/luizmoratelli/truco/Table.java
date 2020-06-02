@@ -1,6 +1,8 @@
 package br.com.luizmoratelli.truco;
 
 import java.util.Stack;
+import java.util.Timer;
+import java.util.TimerTask;
 
 public class Table {
     private Stack<Card> cards = new Stack<Card>();

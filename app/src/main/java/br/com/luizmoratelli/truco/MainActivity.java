@@ -41,6 +41,7 @@ public class MainActivity extends AppCompatActivity {
         playerActions.add((Button) findViewById(R.id.buttonBluff));
         playerActions.add((Button) findViewById(R.id.buttonRun));
         playerActions.add((Button) findViewById(R.id.buttonAccept));
+        playerActions.add((Button) findViewById(R.id.buttonOk));
         //
 
         Game game = new Game(this);
