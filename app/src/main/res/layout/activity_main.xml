@@ -108,27 +108,31 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:clickable="false"
-                    android:text="@string/button_bluff" />
+                    android:text="@string/button_bluff"
+                    android:textColor="#FFFFFF" />
 
                 <Button
                     android:id="@+id/buttonRun"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:clickable="false"
-                    android:text="@string/button_run" />
+                    android:text="@string/button_run"
+                    android:textColor="#FFFFFF" />
 
                 <Button
                     android:id="@+id/buttonAccept"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:clickable="false"
-                    android:text="@string/button_accept" />
+                    android:text="@string/button_accept"
+                    android:textColor="#FFFFFF" />
 
                 <Button
                     android:id="@+id/buttonOk"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="@string/button_ok" />
+                    android:text="@string/button_ok"
+                    android:textColor="#FFFFFF" />
             </LinearLayout>
 
         </LinearLayout>

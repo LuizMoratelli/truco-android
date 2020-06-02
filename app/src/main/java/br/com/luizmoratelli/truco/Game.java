@@ -6,7 +6,9 @@ import android.os.Build;
 import android.view.View;
 import android.widget.Toast;
 
+import androidx.annotation.MainThread;
 import androidx.annotation.RequiresApi;
+import androidx.core.content.ContextCompat;
 
 import java.util.ArrayList;
 
@@ -77,6 +79,7 @@ public class Game {
         table.clean();
     }
 
+    @SuppressLint("ResourceAsColor")
     @RequiresApi(api = Build.VERSION_CODES.N)
     public void createNewRound() {
         boolean createNewRound = true;
@@ -107,11 +110,13 @@ public class Game {
                 playerRound = playerTurn ? player : enemy;
             }
 
+            MainActivity.playerActions.get(3).setBackgroundTintList(ContextCompat.getColorStateList(context, R.color.green));
             MainActivity.playerActions.get(3).setOnClickListener(new View.OnClickListener() {
 
                 @RequiresApi(api = Build.VERSION_CODES.N)
                 @Override
                 public void onClick(View v) {
+                    MainActivity.playerActions.get(3).setBackgroundTintList(ContextCompat.getColorStateList(context, android.R.color.darker_gray));
                     table.clean();
                     rounds.add(new Round(powerfulCard, instance));
                     checkRound(false, null, playerRound);
@@ -145,11 +150,13 @@ public class Game {
             }
 
             updateScore();
+            MainActivity.playerActions.get(3).setBackgroundTintList(ContextCompat.getColorStateList(context, R.color.green));
             MainActivity.playerActions.get(3).setOnClickListener(new View.OnClickListener() {
 
                 @RequiresApi(api = Build.VERSION_CODES.N)
                 @Override
                 public void onClick(View v) {
+                    MainActivity.playerActions.get(3).setBackgroundTintList(ContextCompat.getColorStateList(context, android.R.color.darker_gray));
                     table.clean();
                     nextTurn();
                     playerCanPlay = true;

@@ -2,6 +2,7 @@ package br.com.luizmoratelli.truco;
 
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 
 import android.os.Build;
 import android.os.Bundle;
@@ -42,6 +43,11 @@ public class MainActivity extends AppCompatActivity {
         playerActions.add((Button) findViewById(R.id.buttonRun));
         playerActions.add((Button) findViewById(R.id.buttonAccept));
         playerActions.add((Button) findViewById(R.id.buttonOk));
+
+        // Fix button colors
+        for (int i = 0; i < playerActions.size(); i++) {
+            playerActions.get(i).setBackgroundTintList(ContextCompat.getColorStateList(this, android.R.color.darker_gray));
+        }
         //
 
         Game game = new Game(this);
