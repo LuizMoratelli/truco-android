@@ -114,7 +114,14 @@ public class Game {
                 playerRound = playerTurn ? player : enemy;
             }
 
-            MainActivity.playerActions.get(3).setBackgroundTintList(ContextCompat.getColorStateList(context, R.color.green));
+            if (rounds.get(rounds.size() - 1).draw) {
+                MainActivity.playerActions.get(3).setBackgroundTintList(ContextCompat.getColorStateList(context, R.color.blue));
+            } else if (rounds.get(rounds.size() - 1).winner instanceof RealPlayer) {
+                MainActivity.playerActions.get(3).setBackgroundTintList(ContextCompat.getColorStateList(context, R.color.green));
+            } else {
+                MainActivity.playerActions.get(3).setBackgroundTintList(ContextCompat.getColorStateList(context, R.color.purple));
+            }
+
             MainActivity.playerActions.get(3).setOnClickListener(new View.OnClickListener() {
 
                 @RequiresApi(api = Build.VERSION_CODES.N)
@@ -145,16 +152,24 @@ public class Game {
                         playerWinner ? "Você ganhou a rodada (" + scoreToAdd + ")" : "Você perdeu a rodada (" + scoreToAdd + ")",
                         Toast.LENGTH_LONG
                 ).show();
+
+                if (playerWinner) {
+                    MainActivity.playerActions.get(3).setBackgroundTintList(ContextCompat.getColorStateList(context, R.color.green));
+                } else {
+                    MainActivity.playerActions.get(3).setBackgroundTintList(ContextCompat.getColorStateList(context, R.color.purple));
+                }
             } else {
                 Toast.makeText(
                         context,
                         "Rodada empatada",
                         Toast.LENGTH_LONG
                 ).show();
+
+                MainActivity.playerActions.get(3).setBackgroundTintList(ContextCompat.getColorStateList(context, R.color.blue));
             }
 
             updateScore();
-            MainActivity.playerActions.get(3).setBackgroundTintList(ContextCompat.getColorStateList(context, R.color.green));
+
             MainActivity.playerActions.get(3).setOnClickListener(new View.OnClickListener() {
 
                 @RequiresApi(api = Build.VERSION_CODES.N)
