@@ -1,24 +1,17 @@
 package br.com.luizmoratelli.truco;
 
-import android.content.Context;
 import android.os.Build;
 import android.view.View;
-import android.widget.ImageView;
 
 import androidx.annotation.RequiresApi;
 
-import java.lang.reflect.Array;
-import java.util.AbstractCollection;
 import java.util.ArrayList;
-import java.util.concurrent.TimeUnit;
 
 public class RealPlayer implements Player {
-    private ArrayList<Card> cards = null;
-    private Game game;
+    private ArrayList<Card> cards;
 
     public RealPlayer(ArrayList<Card> cards, Game game) {
         this.cards = cards;
-        this.game = game;
 
         MainActivity.playerCards.get(0).setOnClickListener(new View.OnClickListener() {
             @RequiresApi(api = Build.VERSION_CODES.N)

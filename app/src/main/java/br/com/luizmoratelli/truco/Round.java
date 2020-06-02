@@ -1,12 +1,8 @@
 package br.com.luizmoratelli.truco;
 
 import android.os.Build;
-import android.widget.Toast;
 
 import androidx.annotation.RequiresApi;
-
-import java.util.Timer;
-import java.util.TimerTask;
 
 public class Round {
     public Boolean draw = false;
@@ -42,7 +38,6 @@ public class Round {
                 draw = true;
                 texto = "Empate";
             }
-
 
             // Mudar botão de OK pra cá?
             game.createNewRound();

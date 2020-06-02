@@ -1,10 +1,8 @@
 package br.com.luizmoratelli.truco;
 
-import android.content.Context;
 import android.view.View;
 
 import java.util.ArrayList;
-import java.util.concurrent.TimeUnit;
 
 public class IAPlayer implements Player {
     private ArrayList<Card> cards = null;

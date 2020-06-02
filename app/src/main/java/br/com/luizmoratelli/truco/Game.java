@@ -6,7 +6,6 @@ import android.os.Build;
 import android.view.View;
 import android.widget.Toast;
 
-import androidx.annotation.MainThread;
 import androidx.annotation.RequiresApi;
 import androidx.core.content.ContextCompat;
 
@@ -147,11 +146,11 @@ public class Game {
                 if (playerWinner) playerScore += scoreToAdd;
                 else enemyScore += scoreToAdd;
 
-                Toast.makeText(
+                /*Toast.makeText(
                         context,
                         playerWinner ? "Você ganhou a rodada (" + scoreToAdd + ")" : "Você perdeu a rodada (" + scoreToAdd + ")",
                         Toast.LENGTH_LONG
-                ).show();
+                ).show();*/
 
                 if (playerWinner) {
                     MainActivity.playerActions.get(3).setBackgroundTintList(ContextCompat.getColorStateList(context, R.color.green));
@@ -159,11 +158,11 @@ public class Game {
                     MainActivity.playerActions.get(3).setBackgroundTintList(ContextCompat.getColorStateList(context, R.color.purple));
                 }
             } else {
-                Toast.makeText(
+                /*Toast.makeText(
                         context,
                         "Rodada empatada",
                         Toast.LENGTH_LONG
-                ).show();
+                ).show();*/
 
                 MainActivity.playerActions.get(3).setBackgroundTintList(ContextCompat.getColorStateList(context, R.color.blue));
             }
@@ -243,12 +242,12 @@ public class Game {
 
         String texto = rounds.get(rounds.size() - 1).check(playerRound);
 
-        if (texto != null) {
+        /*if (texto != null) {
             Toast.makeText(
                     context,
                     texto,
                     Toast.LENGTH_SHORT
             ).show();
-        }
+        }*/
     }
 }
