@@ -4,6 +4,7 @@ import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 
+import android.content.Context;
 import android.os.Build;
 import android.os.Bundle;
 import android.widget.Button;
@@ -47,13 +48,16 @@ public class MainActivity extends AppCompatActivity {
         roundsScore.add((ImageView) findViewById(R.id.winRound2));
         roundsScore.add((ImageView) findViewById(R.id.winRound3));
 
-        // Fix button colors
-        for (int i = 0; i < playerActions.size(); i++) {
-            playerActions.get(i).setBackgroundTintList(ContextCompat.getColorStateList(this, android.R.color.darker_gray));
-        }
-        //
+        ResetPlayerButtonsColor(this);
 
         Game game = new Game(this);
         game.nextTurn();
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
+    public static void ResetPlayerButtonsColor(Context context) {
+        for (int i = 0; i < playerActions.size(); i++) {
+            playerActions.get(i).setBackgroundTintList(ContextCompat.getColorStateList(context, android.R.color.darker_gray));
+        }
     }
 }

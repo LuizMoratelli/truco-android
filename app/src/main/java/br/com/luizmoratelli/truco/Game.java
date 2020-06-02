@@ -59,13 +59,9 @@ public class Game {
         // Desabilitar botões e clicks do player, esperar uns 2~5 segundos e fazer uma jogada.
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     private void setupTurn() {
-        MainActivity.playerActions.get(3).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-            }
-        });
+        MainActivity.playerActions.get(3).setOnClickListener(NoAction());
 
         for (int i = 0; i < MainActivity.roundsScore.size(); i++) {
             MainActivity.roundsScore.get(i).setImageResource(R.drawable.back);
@@ -80,6 +76,9 @@ public class Game {
         player.updateHand();
         enemy.updateHand();
         table.clean();
+
+        isBluffed = false;
+        MainActivity.ResetPlayerButtonsColor(context);
     }
 
     @SuppressLint("ResourceAsColor")
@@ -131,12 +130,7 @@ public class Game {
                     rounds.add(new Round(powerfulCard, instance));
                     checkRound(false, null, playerRound);
                     playerCanPlay = true;
-                    MainActivity.playerActions.get(3).setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-
-                        }
-                    });
+                    MainActivity.playerActions.get(3).setOnClickListener(NoAction());
                 }
             });
         } else {
@@ -146,47 +140,36 @@ public class Game {
                 if (playerWinner) playerScore += scoreToAdd;
                 else enemyScore += scoreToAdd;
 
-                /*Toast.makeText(
-                        context,
-                        playerWinner ? "Você ganhou a rodada (" + scoreToAdd + ")" : "Você perdeu a rodada (" + scoreToAdd + ")",
-                        Toast.LENGTH_LONG
-                ).show();*/
-
                 if (playerWinner) {
                     MainActivity.playerActions.get(3).setBackgroundTintList(ContextCompat.getColorStateList(context, R.color.green));
                 } else {
                     MainActivity.playerActions.get(3).setBackgroundTintList(ContextCompat.getColorStateList(context, R.color.purple));
                 }
             } else {
-                /*Toast.makeText(
-                        context,
-                        "Rodada empatada",
-                        Toast.LENGTH_LONG
-                ).show();*/
-
                 MainActivity.playerActions.get(3).setBackgroundTintList(ContextCompat.getColorStateList(context, R.color.blue));
             }
 
             updateScore();
 
             MainActivity.playerActions.get(3).setOnClickListener(new View.OnClickListener() {
-
                 @RequiresApi(api = Build.VERSION_CODES.N)
                 @Override
                 public void onClick(View v) {
-                    MainActivity.playerActions.get(3).setBackgroundTintList(ContextCompat.getColorStateList(context, android.R.color.darker_gray));
-                    table.clean();
                     nextTurn();
                     playerCanPlay = true;
-                    MainActivity.playerActions.get(3).setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-
-                        }
-                    });
+                    MainActivity.playerActions.get(3).setOnClickListener(NoAction());
                 }
             });
         }
+    }
+
+    public static View.OnClickListener NoAction() {
+        return new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        };
     }
 
     @RequiresApi(api = Build.VERSION_CODES.N)
@@ -212,6 +195,7 @@ public class Game {
         MainActivity.playerScore.setText(playerScore + "/12");
         MainActivity.enemyScore.setText(enemyScore + "/12");
 
+        // Transicionar para Tela de vitória/derrota
         if (playerScore >= 12) {
             winner = player;
             Toast.makeText(
@@ -240,14 +224,6 @@ public class Game {
             }
         }
 
-        String texto = rounds.get(rounds.size() - 1).check(playerRound);
-
-        /*if (texto != null) {
-            Toast.makeText(
-                    context,
-                    texto,
-                    Toast.LENGTH_SHORT
-            ).show();
-        }*/
+        rounds.get(rounds.size() - 1).check(playerRound);
     }
 }

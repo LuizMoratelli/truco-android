@@ -27,19 +27,14 @@ public class Round {
         else if (playerCard == null && enemyCard != null) game.setPlayerTurn();
         else if (enemyCard == null && playerCard != null) game.setEnemyTurn();
         else if (playerCard != null && enemyCard != null) {
-            String texto = null;
             if (playerCard.getValue(powerfulCard) > enemyCard.getValue(powerfulCard)) {
                 winner = Game.player;
-                texto = "Feita por você";
             } else if (enemyCard.getValue(powerfulCard) > playerCard.getValue(powerfulCard)) {
                 winner = Game.enemy;
-                texto = "Feita pelo oponente";
             } else {
                 draw = true;
-                texto = "Empate";
             }
 
-            // Mudar botão de OK pra cá?
             game.createNewRound();
 
            for(int i = 0; i < Game.rounds.size(); i++) {
@@ -54,8 +49,6 @@ public class Round {
                    MainActivity.roundsScore.get(i).setImageResource(R.drawable.back_loose);
                }
            }
-
-            return texto;
         }
 
         return null;
