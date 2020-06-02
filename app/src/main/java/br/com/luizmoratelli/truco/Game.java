@@ -27,7 +27,7 @@ public class Game {
     private static Boolean isBluffed = false;
     private static int playerScore = 0;
     private static int enemyScore = 0;
-    private static ArrayList<Round> rounds = new ArrayList<Round>();
+    public static ArrayList<Round> rounds = new ArrayList<Round>();
     public static Game instance;
     public static boolean playerCanPlay = false;
 
@@ -67,6 +67,10 @@ public class Game {
 
             }
         });
+
+        for (int i = 0; i < MainActivity.roundsScore.size(); i++) {
+            MainActivity.roundsScore.get(i).setImageResource(R.drawable.back);
+        }
 
         deck = new Deck(context);
         player = new RealPlayer(deck.draw(initialCards), this);

@@ -11,6 +11,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
@@ -21,6 +22,7 @@ public class MainActivity extends AppCompatActivity {
     public static TextView enemyScore = null;
     public static TextView playerScore = null;
     public static ArrayList<Button> playerActions = new ArrayList<Button>();
+    public static ArrayList<ImageView> roundsScore = new ArrayList<ImageView>();
 
     @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
@@ -43,6 +45,9 @@ public class MainActivity extends AppCompatActivity {
         playerActions.add((Button) findViewById(R.id.buttonRun));
         playerActions.add((Button) findViewById(R.id.buttonAccept));
         playerActions.add((Button) findViewById(R.id.buttonOk));
+        roundsScore.add((ImageView) findViewById(R.id.winRound1));
+        roundsScore.add((ImageView) findViewById(R.id.winRound2));
+        roundsScore.add((ImageView) findViewById(R.id.winRound3));
 
         // Fix button colors
         for (int i = 0; i < playerActions.size(); i++) {

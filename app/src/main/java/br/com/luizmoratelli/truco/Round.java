@@ -43,8 +43,22 @@ public class Round {
                 texto = "Empate";
             }
 
-            // Esperar 1s antes disso
+
+            // Mudar botão de OK pra cá?
             game.createNewRound();
+
+           for(int i = 0; i < Game.rounds.size(); i++) {
+               boolean playerWins = Game.rounds.get(i).winner instanceof RealPlayer;
+               boolean draw = Game.rounds.get(i).draw;
+
+               if (draw) {
+                   MainActivity.roundsScore.get(i).setImageResource(R.drawable.back_draw);
+               } else if (playerWins) {
+                   MainActivity.roundsScore.get(i).setImageResource(R.drawable.back_win);
+               } else {
+                   MainActivity.roundsScore.get(i).setImageResource(R.drawable.back_loose);
+               }
+           }
 
             return texto;
         }
