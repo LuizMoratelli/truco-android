@@ -1,5 +1,6 @@
 package br.com.luizmoratelli.truco;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.os.Build;
 import android.view.View;
@@ -115,6 +116,12 @@ public class Game {
                     rounds.add(new Round(powerfulCard, instance));
                     checkRound(false, null, playerRound);
                     playerCanPlay = true;
+                    MainActivity.playerActions.get(3).setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+
+                        }
+                    });
                 }
             });
         } else {
@@ -146,6 +153,12 @@ public class Game {
                     table.clean();
                     nextTurn();
                     playerCanPlay = true;
+                    MainActivity.playerActions.get(3).setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+
+                        }
+                    });
                 }
             });
         }
