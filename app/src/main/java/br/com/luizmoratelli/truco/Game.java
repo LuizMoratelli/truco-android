@@ -12,6 +12,10 @@ import androidx.core.content.ContextCompat;
 import java.util.ArrayList;
 
 public class Game {
+    public static final int BUTTON_BLUFF = 0;
+    public static final int BUTTON_ACCEPT = 1;
+    public static final int BUTTON_RUN = 2;
+    public static final int BUTTON_OK = 3;
     public static Context context = null;
     private Deck deck = null;
     private static Player winner = null;
@@ -42,9 +46,9 @@ public class Game {
         playerCanPlay = true;
 
         // Habilitar botões e clicks nas cards
-        MainActivity.ChangePlayerButtonColor(0, context, isBluffed ? R.color.yellow : R.color.green);
+        MainActivity.ChangePlayerButtonColor(BUTTON_BLUFF, context, isBluffed ? R.color.yellow : R.color.green);
 
-        MainActivity.playerActions.get(0).setOnClickListener(new View.OnClickListener() {
+        MainActivity.playerActions.get(BUTTON_BLUFF).setOnClickListener(new View.OnClickListener() {
             @RequiresApi(api = Build.VERSION_CODES.N)
             @Override
             public void onClick(View v) {
@@ -52,7 +56,7 @@ public class Game {
                     isBluffed = IAPlayer.acceptBluff();
 
                     if (isBluffed) {
-                        MainActivity.ChangePlayerButtonColor(0, context, R.color.yellow);
+                        MainActivity.ChangePlayerButtonColor(BUTTON_BLUFF, context, R.color.yellow);
                         Toast.makeText(
                                 context,
                                 "O oponente aceitou o truco",
@@ -86,7 +90,7 @@ public class Game {
 
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     private void setupTurn() {
-        MainActivity.playerActions.get(3).setOnClickListener(NoAction());
+        MainActivity.playerActions.get(BUTTON_OK).setOnClickListener(NoAction());
 
         for (int i = 0; i < MainActivity.roundsScore.size(); i++) {
             MainActivity.roundsScore.get(i).setImageResource(R.drawable.back);
@@ -138,23 +142,23 @@ public class Game {
             }
 
             if (rounds.get(rounds.size() - 1).draw) {
-                MainActivity.ChangePlayerButtonColor(3, context, R.color.blue);
+                MainActivity.ChangePlayerButtonColor(BUTTON_OK, context, R.color.blue);
             } else if (rounds.get(rounds.size() - 1).winner instanceof RealPlayer) {
-                MainActivity.ChangePlayerButtonColor(3, context, R.color.green);
+                MainActivity.ChangePlayerButtonColor(BUTTON_OK, context, R.color.green);
             } else {
-                MainActivity.ChangePlayerButtonColor(3, context, R.color.purple);
+                MainActivity.ChangePlayerButtonColor(BUTTON_OK, context, R.color.purple);
             }
 
-            MainActivity.playerActions.get(3).setOnClickListener(new View.OnClickListener() {
+            MainActivity.playerActions.get(BUTTON_OK).setOnClickListener(new View.OnClickListener() {
                 @RequiresApi(api = Build.VERSION_CODES.N)
                 @Override
                 public void onClick(View v) {
-                    MainActivity.ChangePlayerButtonColor(3, context, android.R.color.darker_gray);
+                    MainActivity.ChangePlayerButtonColor(BUTTON_OK, context, android.R.color.darker_gray);
                     table.clean();
                     rounds.add(new Round(powerfulCard, instance));
                     checkRound(false, null, playerRound);
                     playerCanPlay = true;
-                    MainActivity.playerActions.get(3).setOnClickListener(NoAction());
+                    MainActivity.playerActions.get(BUTTON_OK).setOnClickListener(NoAction());
                 }
             });
         } else {
@@ -165,23 +169,23 @@ public class Game {
                 else enemyScore += scoreToAdd;
 
                 if (playerWinner) {
-                    MainActivity.ChangePlayerButtonColor(3, context, R.color.green);
+                    MainActivity.ChangePlayerButtonColor(BUTTON_OK, context, R.color.green);
                 } else {
-                    MainActivity.ChangePlayerButtonColor(3, context, R.color.purple);
+                    MainActivity.ChangePlayerButtonColor(BUTTON_OK, context, R.color.purple);
                 }
             } else {
-                MainActivity.ChangePlayerButtonColor(3, context, R.color.blue);
+                MainActivity.ChangePlayerButtonColor(BUTTON_OK, context, R.color.blue);
             }
 
             updateScore();
 
-            MainActivity.playerActions.get(3).setOnClickListener(new View.OnClickListener() {
+            MainActivity.playerActions.get(BUTTON_OK).setOnClickListener(new View.OnClickListener() {
                 @RequiresApi(api = Build.VERSION_CODES.N)
                 @Override
                 public void onClick(View v) {
                     nextTurn();
                     playerCanPlay = true;
-                    MainActivity.playerActions.get(3).setOnClickListener(NoAction());
+                    MainActivity.playerActions.get(BUTTON_OK).setOnClickListener(NoAction());
                 }
             });
         }
