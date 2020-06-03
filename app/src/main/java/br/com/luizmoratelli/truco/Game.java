@@ -49,8 +49,26 @@ public class Game {
             @Override
             public void onClick(View v) {
                 if (playerCanPlay && !isBluffed) {
-                    isBluffed = true;
-                    MainActivity.ChangePlayerButtonColor(0, context, R.color.yellow);
+                    isBluffed = IAPlayer.acceptBluff();
+
+                    if (isBluffed) {
+                        MainActivity.ChangePlayerButtonColor(0, context, R.color.yellow);
+                        Toast.makeText(
+                                context,
+                                "O oponente aceitou o truco",
+                                Toast.LENGTH_SHORT
+                        ).show();
+                    } else {
+                        playerScore++;
+                        updateScore();
+                        nextTurn();
+
+                        Toast.makeText(
+                                context,
+                                "O oponente recusou o truco",
+                                Toast.LENGTH_SHORT
+                        ).show();
+                    }
                 }
             }
         });

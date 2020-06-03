@@ -13,6 +13,11 @@ public class IAPlayer implements Player {
         this.game = game;
     }
 
+    // IA decide se aceita ou não
+    public static Boolean acceptBluff() {
+        return false;
+    }
+
     @Override
     public void updateHand() {
         for (int i = 0; i < 3; i++) {
