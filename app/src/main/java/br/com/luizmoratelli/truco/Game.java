@@ -12,7 +12,7 @@ import androidx.core.content.ContextCompat;
 import java.util.ArrayList;
 
 public class Game {
-    private final Context context;
+    public static Context context = null;
     private Deck deck = null;
     private static Player winner = null;
     public static Player player;
@@ -23,7 +23,7 @@ public class Game {
     private static Digit powerfulCard;
     public static Boolean playerTurn = false;
     public static Player playerRound = null;
-    private static Boolean isBluffed = false;
+    public static Boolean isBluffed = false;
     private static int playerScore = 0;
     private static int enemyScore = 0;
     public static ArrayList<Round> rounds = new ArrayList<Round>();
@@ -36,15 +36,22 @@ public class Game {
         instance = this;
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     public void setPlayerTurn() {
         playerRound = player;
         playerCanPlay = true;
-        // Habilitar botões e clicks nas cards
-        MainActivity.playerActions.get(0).setOnClickListener(new View.OnClickListener() {
 
+        // Habilitar botões e clicks nas cards
+        MainActivity.ChangePlayerButtonColor(0, context, isBluffed ? R.color.yellow : R.color.green);
+
+        MainActivity.playerActions.get(0).setOnClickListener(new View.OnClickListener() {
             @RequiresApi(api = Build.VERSION_CODES.N)
             @Override
             public void onClick(View v) {
+                if (playerCanPlay && !isBluffed) {
+                    isBluffed = true;
+                    MainActivity.ChangePlayerButtonColor(0, context, R.color.yellow);
+                }
             }
         });
     }
@@ -113,19 +120,18 @@ public class Game {
             }
 
             if (rounds.get(rounds.size() - 1).draw) {
-                MainActivity.playerActions.get(3).setBackgroundTintList(ContextCompat.getColorStateList(context, R.color.blue));
+                MainActivity.ChangePlayerButtonColor(3, context, R.color.blue);
             } else if (rounds.get(rounds.size() - 1).winner instanceof RealPlayer) {
-                MainActivity.playerActions.get(3).setBackgroundTintList(ContextCompat.getColorStateList(context, R.color.green));
+                MainActivity.ChangePlayerButtonColor(3, context, R.color.green);
             } else {
-                MainActivity.playerActions.get(3).setBackgroundTintList(ContextCompat.getColorStateList(context, R.color.purple));
+                MainActivity.ChangePlayerButtonColor(3, context, R.color.purple);
             }
 
             MainActivity.playerActions.get(3).setOnClickListener(new View.OnClickListener() {
-
                 @RequiresApi(api = Build.VERSION_CODES.N)
                 @Override
                 public void onClick(View v) {
-                    MainActivity.playerActions.get(3).setBackgroundTintList(ContextCompat.getColorStateList(context, android.R.color.darker_gray));
+                    MainActivity.ChangePlayerButtonColor(3, context, android.R.color.darker_gray);
                     table.clean();
                     rounds.add(new Round(powerfulCard, instance));
                     checkRound(false, null, playerRound);
@@ -141,12 +147,12 @@ public class Game {
                 else enemyScore += scoreToAdd;
 
                 if (playerWinner) {
-                    MainActivity.playerActions.get(3).setBackgroundTintList(ContextCompat.getColorStateList(context, R.color.green));
+                    MainActivity.ChangePlayerButtonColor(3, context, R.color.green);
                 } else {
-                    MainActivity.playerActions.get(3).setBackgroundTintList(ContextCompat.getColorStateList(context, R.color.purple));
+                    MainActivity.ChangePlayerButtonColor(3, context, R.color.purple);
                 }
             } else {
-                MainActivity.playerActions.get(3).setBackgroundTintList(ContextCompat.getColorStateList(context, R.color.blue));
+                MainActivity.ChangePlayerButtonColor(3, context, R.color.blue);
             }
 
             updateScore();

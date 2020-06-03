@@ -77,6 +77,8 @@ public class RealPlayer implements Player {
     @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
     public Card playCard(int position) {
+        MainActivity.ResetPlayerButtonsColor(Game.context);
+
         if (Game.playerRound instanceof RealPlayer && cards.size() > position) {
             return cards.remove(position);
         }

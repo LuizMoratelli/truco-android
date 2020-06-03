@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
 import android.widget.Button;
@@ -57,7 +58,16 @@ public class MainActivity extends AppCompatActivity {
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     public static void ResetPlayerButtonsColor(Context context) {
         for (int i = 0; i < playerActions.size(); i++) {
-            playerActions.get(i).setBackgroundTintList(ContextCompat.getColorStateList(context, android.R.color.darker_gray));
+            if (i == 0 && Game.isBluffed) {
+                MainActivity.ChangePlayerButtonColor(i, Game.context, R.color.yellow);
+            } else {
+                playerActions.get(i).setBackgroundTintList(ContextCompat.getColorStateList(context, android.R.color.darker_gray));
+            }
         }
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
+    public static void ChangePlayerButtonColor(int id, Context context, int color) {
+        MainActivity.playerActions.get(id).setBackgroundTintList(ContextCompat.getColorStateList(context, color));
     }
 }
