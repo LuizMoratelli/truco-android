@@ -159,7 +159,8 @@
                     android:layout_height="wrap_content"
                     android:clickable="false"
                     android:text="@string/button_run"
-                    android:textColor="#FFFFFF" />
+                    android:textColor="#FFFFFF"
+                    android:visibility="invisible" />
 
                 <Button
                     android:id="@+id/buttonAccept"
@@ -167,7 +168,8 @@
                     android:layout_height="wrap_content"
                     android:clickable="false"
                     android:text="@string/button_accept"
-                    android:textColor="#FFFFFF" />
+                    android:textColor="#FFFFFF"
+                    android:visibility="invisible" />
 
                 <Button
                     android:id="@+id/buttonOk"
