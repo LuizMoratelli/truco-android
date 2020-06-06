@@ -49,8 +49,8 @@ public class Card {
         }
     }
 
-    public Integer getValue(Digit powerful) {
-        if (powerful == digit) {
+    public Integer getValue() {
+        if (Game.powerfulCard == digit) {
             switch (suit) {
                 case Clubs: return 14;
                 case Hearts: return 13;

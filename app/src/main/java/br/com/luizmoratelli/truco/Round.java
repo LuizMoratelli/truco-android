@@ -30,9 +30,9 @@ public class Round {
         else if (enemyCard == null && playerCard != null) game.setEnemyTurn();
         // Calcula o vencedor da rodada
         else if (playerCard != null && enemyCard != null) {
-            if (playerCard.getValue(powerfulCard) > enemyCard.getValue(powerfulCard)) {
+            if (playerCard.getValue() > enemyCard.getValue()) {
                 winner = Game.player;
-            } else if (enemyCard.getValue(powerfulCard) > playerCard.getValue(powerfulCard)) {
+            } else if (enemyCard.getValue() > playerCard.getValue()) {
                 winner = Game.enemy;
             } else {
                 draw = true;

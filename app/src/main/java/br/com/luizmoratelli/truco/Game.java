@@ -24,8 +24,8 @@ public class Game {
     public static Player player;
     public static Player enemy;
     public static Table table;
-    private static Card turnedCard;
-    private static Digit powerfulCard;
+    public static Card turnedCard;
+    public static Digit powerfulCard;
     public static Boolean playerTurn = false;
     public static Player playerRound = null;
     public static Boolean isBluffed = false;
@@ -42,6 +42,7 @@ public class Game {
         enemyScore = 0;
         playerCanPlay = false;
         updateScore();
+        //
 
         this.context = context;
         table = new Table();
@@ -93,7 +94,6 @@ public class Game {
         enemy.updateHand();
         table.addCard(playedCard);
         checkRound(false, playedCard, null);
-        // Desabilitar botões e clicks do player, esperar uns 2~5 segundos e fazer uma jogada.
     }
 
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
