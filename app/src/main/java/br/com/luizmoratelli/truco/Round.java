@@ -22,10 +22,13 @@ public class Round {
 
     @RequiresApi(api = Build.VERSION_CODES.N)
     public String check(Player playerTurn) {
+        // Define o turno no começo de um turno
         if (playerTurn instanceof RealPlayer) game.setPlayerTurn();
         else if (playerTurn instanceof IAPlayer) game.setEnemyTurn();
+        // Define o turno após um dos player ter jogado
         else if (playerCard == null && enemyCard != null) game.setPlayerTurn();
         else if (enemyCard == null && playerCard != null) game.setEnemyTurn();
+        // Calcula o vencedor da rodada
         else if (playerCard != null && enemyCard != null) {
             if (playerCard.getValue(powerfulCard) > enemyCard.getValue(powerfulCard)) {
                 winner = Game.player;
@@ -37,7 +40,7 @@ public class Round {
 
             game.createNewRound();
 
-           for(int i = 0; i < Game.rounds.size(); i++) {
+           for (int i = 0; i < Game.rounds.size(); i++) {
                boolean playerWins = Game.rounds.get(i).winner instanceof RealPlayer;
                boolean draw = Game.rounds.get(i).draw;
 

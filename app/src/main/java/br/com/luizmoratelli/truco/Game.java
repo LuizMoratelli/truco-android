@@ -2,6 +2,7 @@ package br.com.luizmoratelli.truco;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Build;
 import android.view.View;
 import android.widget.Toast;
@@ -16,13 +17,13 @@ public class Game {
     public static final int BUTTON_ACCEPT = 1;
     public static final int BUTTON_RUN = 2;
     public static final int BUTTON_OK = 3;
+    private static final int initialCards = 3;
     public static Context context = null;
     private Deck deck = null;
-    private static Player winner = null;
+    public static Player winner = null;
     public static Player player;
     public static Player enemy;
     public static Table table;
-    private static final int initialCards = 3;
     private static Card turnedCard;
     private static Digit powerfulCard;
     public static Boolean playerTurn = false;
@@ -35,6 +36,13 @@ public class Game {
     public static boolean playerCanPlay = false;
 
     public Game(Context context) {
+        // Reset values for new Matches
+        winner = null;
+        playerScore = 0;
+        enemyScore = 0;
+        playerCanPlay = false;
+        updateScore();
+
         this.context = context;
         table = new Table();
         instance = this;
@@ -112,6 +120,7 @@ public class Game {
 
     @SuppressLint("ResourceAsColor")
     @RequiresApi(api = Build.VERSION_CODES.N)
+    // Determina se será criado uma nova rodada ou um novo turno (3 rodadas)
     public void createNewRound() {
         boolean createNewRound = true;
         boolean playerWinner = false;
@@ -194,9 +203,7 @@ public class Game {
     public static View.OnClickListener NoAction() {
         return new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
-
-            }
+            public void onClick(View v) {}
         };
     }
 
@@ -223,22 +230,16 @@ public class Game {
         MainActivity.playerScore.setText(playerScore + "/12");
         MainActivity.enemyScore.setText(enemyScore + "/12");
 
-        // Transicionar para Tela de vitória/derrota
         if (playerScore >= 12) {
             winner = player;
-            Toast.makeText(
-                    context,
-                    R.string.text_win,
-                    Toast.LENGTH_LONG
-            ).show();
-
         } else if (enemyScore >= 12) {
             winner = enemy;
-            Toast.makeText(
-                    context,
-                    R.string.text_lose,
-                    Toast.LENGTH_LONG
-            ).show();
+        }
+
+        if (winner != null) {
+            Intent intent = new Intent(context, MatchResultActivity.class);
+            intent.putExtra("PLAYER_WON", winner instanceof RealPlayer);
+            context.startActivity(intent);
         }
     }
 

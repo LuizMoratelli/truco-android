@@ -4,6 +4,7 @@ import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Color;
 import android.os.Build;
@@ -23,14 +24,17 @@ public class MainActivity extends AppCompatActivity {
     public static TextView playerScore = null;
     public static ArrayList<Button> playerActions = new ArrayList<Button>();
     public static ArrayList<ImageView> roundsScore = new ArrayList<ImageView>();
+    public static Game game;
+    private static Context context;
 
     @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        context = this;
 
-        // Set Views (Change to BroadCast Receiver!?)
+        // Set Views
         playerCards.add((ImageView) findViewById(R.id.player1Card));
         playerCards.add((ImageView) findViewById(R.id.player2Card));
         playerCards.add((ImageView) findViewById(R.id.player3Card));
@@ -49,9 +53,14 @@ public class MainActivity extends AppCompatActivity {
         roundsScore.add((ImageView) findViewById(R.id.winRound2));
         roundsScore.add((ImageView) findViewById(R.id.winRound3));
 
-        ResetPlayerButtonsColor(this);
+        CreateNewGame();
+    }
 
-        Game game = new Game(this);
+    @SuppressLint("NewApi")
+    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
+    public static void CreateNewGame() {
+        ResetPlayerButtonsColor(context);
+        game = new Game(context);
         game.nextTurn();
     }
 

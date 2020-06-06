@@ -6,4 +6,7 @@
     <string name="text_win">Você ganhou a partida!</string>
     <string name="text_lose">Você perdeu a partida!</string>
     <string name="button_ok">OK</string>
+    <string name="activity_win">Parabéns! Você venceu a partida.</string>
+    <string name="activity_lose">Mais sorte na próxima, você perdeu a partida.</string>
+    <string name="button_replay">Jogar novamente</string>
 </resources>
