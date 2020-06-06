@@ -54,17 +54,13 @@ public class IAPlayer implements Player {
                     chanceToAccept = 75;
                 } else if (goodCards == 1) {
                     chanceToAccept = 60;
-                } else {
-                    chanceToAccept = 30;
                 }
             }
         } else if (Game.rounds.size() == 3) {
             if (jokersCards == 1) {
                 chanceToAccept = 100;
             } else if (goodCards == 1) {
-                chanceToAccept = 75;
-            } else {
-                chanceToAccept = 25;
+                chanceToAccept = 80;
             }
         }
 
