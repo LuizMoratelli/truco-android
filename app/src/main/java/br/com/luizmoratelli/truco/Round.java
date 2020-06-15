@@ -43,6 +43,7 @@ class Round {
 
             game.createNewRound();
 
+            // Define os ícones de pontuação dos rounds
            for (int i = 0; i < Game.rounds.size(); i++) {
                boolean playerWins = Game.rounds.get(i).winner instanceof RealPlayer;
                boolean draw = Game.rounds.get(i).draw;

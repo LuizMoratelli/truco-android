@@ -135,6 +135,7 @@ public class Game {
         int playerRoundsWon = (int) rounds.stream().filter(round -> round.winner == player).count();
         playerCanPlay = false;
 
+        // Verifica se o turno acabou ou não
         if (rounds.size() == 2 && drawRounds < 2) {
             if (playerRoundsWon == 2 || (playerRoundsWon == 1 && drawRounds == 1)) {
                 createNewRound = false;
@@ -150,6 +151,7 @@ public class Game {
             }
         }
 
+        // Se ainda não acabou o turno
         if (createNewRound) {
             playerRound = rounds.get(rounds.size() - 1).winner;
 
@@ -157,6 +159,7 @@ public class Game {
                 playerRound = playerTurn ? player : enemy;
             }
 
+            // Muda a cor do botão de OK de acordo com quem ganhou o round
             if (rounds.get(rounds.size() - 1).draw) {
                 MainActivity.ChangePlayerButtonColor(BUTTON_OK, context, R.color.blue);
             } else if (rounds.get(rounds.size() - 1).winner instanceof RealPlayer) {
@@ -165,6 +168,7 @@ public class Game {
                 MainActivity.ChangePlayerButtonColor(BUTTON_OK, context, R.color.purple);
             }
 
+            // Define a ação do Botão de OK
             MainActivity.playerActions.get(BUTTON_OK).setOnClickListener(new View.OnClickListener() {
                 @RequiresApi(api = Build.VERSION_CODES.N)
                 @Override
@@ -178,6 +182,7 @@ public class Game {
                 }
             });
         } else {
+            // Caso já tenha sido jogado os rounds suficientes, calcula o ganhador do turno
             int scoreToAdd = isBluffed ? 3 : 1;
 
             if (drawRounds < 3) {
