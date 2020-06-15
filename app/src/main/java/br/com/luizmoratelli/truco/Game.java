@@ -13,29 +13,34 @@ import androidx.core.content.ContextCompat;
 import java.util.ArrayList;
 
 public class Game {
-    public static final int BUTTON_BLUFF = 0;
-    public static final int BUTTON_ACCEPT = 1;
-    public static final int BUTTON_RUN = 2;
-    public static final int BUTTON_OK = 3;
-    private static final int initialCards = 3;
-    public static Context context = null;
+    static final int BUTTON_BLUFF = 0;
+    static final int BUTTON_ACCEPT = 1;
+    static final int BUTTON_RUN = 2;
+    static final int BUTTON_OK = 3;
+    static final int initialCards = 3;
+
+    @SuppressLint("StaticFieldLeak")
+    private static Game instance;
+    @SuppressLint("StaticFieldLeak")
+    static Context context = null;
+
     private Deck deck = null;
-    public static Player winner = null;
-    public static Player player;
-    public static Player enemy;
-    public static Table table;
-    public static Card turnedCard;
-    public static Digit powerfulCard;
-    public static Boolean playerTurn = false;
-    public static Player playerRound = null;
-    public static Boolean isBluffed = false;
+    private static Player winner = null;
+    private static Card turnedCard;
     private static int playerScore = 0;
     private static int enemyScore = 0;
-    public static ArrayList<Round> rounds = new ArrayList<Round>();
-    public static Game instance;
-    public static boolean playerCanPlay = false;
+    private static Boolean playerTurn = false;
 
-    public Game(Context context) {
+    static Digit powerfulCard;
+    static Player playerRound = null;
+    static Boolean isBluffed = false;
+    static ArrayList<Round> rounds = new ArrayList<Round>();
+    static boolean playerCanPlay = false;
+    static Player player;
+    static Player enemy;
+    static Table table;
+
+    Game(Context context) {
         // Reset values for new Matches
         winner = null;
         playerScore = 0;
@@ -44,19 +49,20 @@ public class Game {
         updateScore();
         //
 
-        this.context = context;
+        Game.context = context;
         table = new Table();
         instance = this;
     }
 
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
-    public void setPlayerTurn() {
+    void setPlayerTurn() {
         playerRound = player;
         playerCanPlay = true;
 
         // Habilitar botões e clicks nas cards
         MainActivity.ChangePlayerButtonColor(BUTTON_BLUFF, context, isBluffed ? R.color.yellow : R.color.green);
 
+        // Botão de truco
         MainActivity.playerActions.get(BUTTON_BLUFF).setOnClickListener(new View.OnClickListener() {
             @RequiresApi(api = Build.VERSION_CODES.N)
             @Override
@@ -88,7 +94,7 @@ public class Game {
     }
 
     @RequiresApi(api = Build.VERSION_CODES.N)
-    public void setEnemyTurn() {
+    void setEnemyTurn() {
         playerRound = enemy;
         Card playedCard = enemy.playCard(0);
         enemy.updateHand();
@@ -96,6 +102,7 @@ public class Game {
         checkRound(false, playedCard, null);
     }
 
+    // Turno = cada mão. Composto de até 3 rounds
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     private void setupTurn() {
         MainActivity.playerActions.get(BUTTON_OK).setOnClickListener(NoAction());
@@ -121,7 +128,7 @@ public class Game {
     @SuppressLint("ResourceAsColor")
     @RequiresApi(api = Build.VERSION_CODES.N)
     // Determina se será criado uma nova rodada ou um novo turno (3 rodadas)
-    public void createNewRound() {
+    void createNewRound() {
         boolean createNewRound = true;
         boolean playerWinner = false;
         int drawRounds = (int) rounds.stream().filter(round -> round.draw).count();
@@ -200,7 +207,7 @@ public class Game {
         }
     }
 
-    public static View.OnClickListener NoAction() {
+    private static View.OnClickListener NoAction() {
         return new View.OnClickListener() {
             @Override
             public void onClick(View v) {}
@@ -208,7 +215,7 @@ public class Game {
     }
 
     @RequiresApi(api = Build.VERSION_CODES.N)
-    public void nextTurn() {
+    void nextTurn() {
         setupTurn();
         rounds.add(new Round(powerfulCard, this));
 
@@ -220,7 +227,7 @@ public class Game {
 
     }
 
-    public void setTurnedCard() {
+    private void setTurnedCard() {
         turnedCard = deck.draw(1).get(0);
         MainActivity.turnedCard.setImageResource(turnedCard.image);
         powerfulCard = turnedCard.digit.next();
@@ -244,7 +251,7 @@ public class Game {
     }
 
     @RequiresApi(api = Build.VERSION_CODES.N)
-    public void checkRound(Boolean playerCard, Card card, Player playerRound) {
+    void checkRound(Boolean playerCard, Card card, Player playerRound) {
         if (card != null) {
             if (playerCard) {
                 rounds.get(rounds.size() - 1).setPlayerCard(card);

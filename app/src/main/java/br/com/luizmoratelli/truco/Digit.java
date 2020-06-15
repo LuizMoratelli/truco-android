@@ -5,6 +5,9 @@ public enum Digit {
 
     private static Digit[] vals = values();
 
+    /*
+    * Retorna o valor da próxima carta. (Para saber qual é o coringa)
+     */
     public Digit next() {
         return vals[(this.ordinal() + 1 ) % vals.length];
     }

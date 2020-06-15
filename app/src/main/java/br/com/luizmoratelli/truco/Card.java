@@ -1,20 +1,19 @@
 package br.com.luizmoratelli.truco;
 
 import android.content.Context;
-import android.content.res.Resources;
-import android.media.Image;
 
 import java.io.CharConversionException;
 
-public class Card {
-    public Suit suit;
-    public Digit digit;
-    public int image;
+class Card {
+    private Suit suit;
+    Digit digit;
+    int image;
 
-    public Card(String card, Context context) {
+    Card(String card, Context context) {
         image = context.getResources().getIdentifier(card, "drawable", context.getPackageName());
         char suit = card.charAt(0);
         char digit = card.charAt(1);
+
         try {
             setDigit(digit);
             setSuit(suit);
@@ -23,7 +22,7 @@ public class Card {
         }
     }
 
-    public void setDigit(char digit) throws java.io.CharConversionException {
+    private void setDigit(char digit) throws java.io.CharConversionException {
         switch (digit) {
             case 'a': this.digit = Digit.A; break;
             case '2': this.digit = Digit.Two; break;
@@ -39,7 +38,7 @@ public class Card {
         }
     }
 
-    public void setSuit(char suit) throws java.io.CharConversionException{
+    private void setSuit(char suit) throws java.io.CharConversionException{
         switch (suit) {
             case 'c': this.suit = Suit.Clubs; break;
             case 'd': this.suit = Suit.Diamonds; break;
@@ -49,7 +48,10 @@ public class Card {
         }
     }
 
-    public Integer getValue() {
+    /*
+    * Método para retornar o "poder" da carta, de 14 à 1.
+     */
+    Integer getValue() {
         if (Game.powerfulCard == digit) {
             switch (suit) {
                 case Clubs: return 14;

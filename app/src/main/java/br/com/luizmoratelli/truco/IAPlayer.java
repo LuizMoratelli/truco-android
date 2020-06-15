@@ -12,14 +12,14 @@ public class IAPlayer implements Player {
     private static ArrayList<Card> cards = null;
     private Game game;
 
-    public IAPlayer(ArrayList<Card> cards, Game game) {
-        this.cards = cards;
+    IAPlayer(ArrayList<Card> cards, Game game) {
+        IAPlayer.cards = cards;
         this.game = game;
     }
 
-    // IA decide se aceita ou não
+    // IA decide se aceita ou não o truco
     @RequiresApi(api = Build.VERSION_CODES.N)
-    public static Boolean acceptBluff() {
+    static Boolean acceptBluff() {
         int goodCards = getCountOfGoodCards();
         int jokersCards = getCountOfJokersCards();
         int chanceToAccept = 50;
@@ -80,6 +80,9 @@ public class IAPlayer implements Player {
         }
     }
 
+    /*
+    * Determina qual carta a IA vai jogar
+     */
     @Override
     public Card playCard(int position) {
         int pos = 0;
@@ -122,7 +125,7 @@ public class IAPlayer implements Player {
     }
 
     // Retornar a carta mais fraca que seja suficiente pra fazer (poder ser null caso não haja)
-    public int getLowestValuableCardPosition() {
+    private int getLowestValuableCardPosition() {
         int pos = 0;
 
         for (int i = 0; i < cards.size(); i++) {
@@ -134,6 +137,7 @@ public class IAPlayer implements Player {
         return pos;
     }
 
+    // Retorna a carta mais forte
     private int getHighestValuableCardPosition() {
         int pos = 0;
 
@@ -146,6 +150,7 @@ public class IAPlayer implements Player {
         return pos;
     }
 
+    // Retorna a carta mais fraca que seja maior que um valor
     private int getLowestValuableCardGreaterThan(int value) {
         int pos = -1;
 
@@ -160,6 +165,7 @@ public class IAPlayer implements Player {
         return pos;
     }
 
+    // Verifica se alguma carta pode ganhar da do oponente
     private boolean canWinRound(int value) {
         for (int i = 0; i < cards.size(); i++) {
             if (cards.get(i).getValue() >= value) return true;
@@ -179,6 +185,7 @@ public class IAPlayer implements Player {
         return count;
     }
 
+    // Retorna a quantidade de cartas coringas na mão
     private static int getCountOfJokersCards() {
         int count = 0;
 

@@ -6,10 +6,13 @@ import java.util.ArrayList;
 import java.util.Stack;
 import java.util.Random;
 
-public class Deck {
+class Deck {
     private Stack cards;
 
-    public Deck(final Context context) {
+    /*
+    * Adicionar todas as cartas no deck (pilha)
+     */
+    Deck(final Context context) {
         cards = new Stack<Card>(){{
             add(new Card("ca", context));
             add(new Card("da", context));
@@ -54,7 +57,10 @@ public class Deck {
         }};
     }
 
-    public ArrayList<Card> draw (int quantity) {
+    /*
+    * Retorna uma lista de cartas (de acordo com a quantidade) aleatórias.
+     */
+    ArrayList<Card> draw(int quantity) {
         ArrayList<Card> drawnCards = new ArrayList<Card>();
 
         for (int i = 0; i < quantity; i++) {

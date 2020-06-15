@@ -10,7 +10,7 @@ import java.util.ArrayList;
 public class RealPlayer implements Player {
     private ArrayList<Card> cards;
 
-    public RealPlayer(ArrayList<Card> cards, Game game) {
+    RealPlayer(ArrayList<Card> cards, Game game) {
         this.cards = cards;
 
         MainActivity.playerCards.get(0).setOnClickListener(new View.OnClickListener() {

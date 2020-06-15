@@ -4,24 +4,27 @@ import android.os.Build;
 
 import androidx.annotation.RequiresApi;
 
-public class Round {
-    public Boolean draw = false;
-    public Player winner;
-    public Card playerCard;
-    public Card enemyCard;
+class Round {
+    Boolean draw = false;
+    Player winner;
+    private Card playerCard;
+    private Card enemyCard;
     private Digit powerfulCard;
     private Game game;
 
-    public void setPlayerCard(Card card) {
+    void setPlayerCard(Card card) {
         playerCard = card;
     }
 
-    public void setEnemyCard(Card card) {
+    void setEnemyCard(Card card) {
         enemyCard = card;
     }
 
+    /*
+    * Verificar se algum Player precisa jogar, caso contrário calcula o vencedor do round
+     */
     @RequiresApi(api = Build.VERSION_CODES.N)
-    public String check(Player playerTurn) {
+    String check(Player playerTurn) {
         // Define o turno no começo de um turno
         if (playerTurn instanceof RealPlayer) game.setPlayerTurn();
         else if (playerTurn instanceof IAPlayer) game.setEnemyTurn();
@@ -57,7 +60,7 @@ public class Round {
         return null;
     }
 
-    public Round(Digit powerfulCard, Game game) {
+    Round(Digit powerfulCard, Game game) {
        this.powerfulCard = powerfulCard;
        this.game = game;
     }
